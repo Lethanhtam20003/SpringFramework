@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    # Gắn chặt với tag 8.4 để đảm bảo hệ thống không bị biến động
+    image: mysql:8.4
+    container_name: app_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: secretpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend_network
+
+volumes:
+  mysql_data:
+
+networks:
+  backend_network:
+    driver: bridge
