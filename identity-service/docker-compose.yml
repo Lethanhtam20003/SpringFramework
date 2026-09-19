@@ -2,19 +2,40 @@ version: '3.8'
 
 services:
   mysql-db:
-    # Gắn chặt với tag 8.4 để đảm bảo hệ thống không bị biến động
     image: mysql:8.4
     container_name: app_mysql
     restart: unless-stopped
+    command: --mysql-native-password=ON
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: rootPassword
       MYSQL_DATABASE: app_db
       MYSQL_USER: admin
-      MYSQL_PASSWORD: secretpassword
+      MYSQL_PASSWORD: secretPassword
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - backend_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootPassword" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: pma_identity_db
+    restart: always
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mysql-db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "8081:80"
     networks:
       - backend_network
 
