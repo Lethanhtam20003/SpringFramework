@@ -1,7 +1,9 @@
 package com.thanhtam.ecommerce.identity.features.auth.login;
 
+import com.nimbusds.jose.JOSEException;
 import com.thanhtam.ecommerce.identity.common.result.Error;
 import com.thanhtam.ecommerce.identity.common.result.Result;
+import com.thanhtam.ecommerce.identity.common.security.jwt.JwtUtil;
 import com.thanhtam.ecommerce.identity.domain.entities.Client;
 import com.thanhtam.ecommerce.identity.infrastructure.persistence.IClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +15,27 @@ import org.springframework.stereotype.Service;
 public class LoginCommandHandler {
     private IClientRepository clientRepository;
     private PasswordEncoder passwordEncoder;
-    private Object tokenGeneration;
+    private JwtUtil tokenGeneration;
 
-    public Result<Login.Response> handler(String clientName, String password) {
+    public Result<Login.Response> handler(String clientName, String password) throws JOSEException {
         // kiểm tra tài khoản
         if(!clientRepository.existsByClientName(clientName)){
-            return Result.failure(Error.notFound("User.NotFound","Client not found"));
+            return Result.failure(Error.unauthorized("Login.UserNotFound","Client not found"));
         }
+
         Client client = clientRepository.findByClientName(clientName);
 
         if(!passwordEncoder.matches(client.getPasswordHash(), password)){
-            return Result.failure(Error.conflict("User.PasswordMismatch","Password does not match"));
+            return Result.failure(Error.unauthorized("Login.PasswordMismatch","Password does not match"));
         }
-        String token = tokenGeneration.generate(Client);
+
+        String accessToken = tokenGeneration.generateAccessToken(client.getId().toString(),client.getRoles().name());
+        String refreshToken = tokenGeneration.generateRefreshToken(client.getId().toString());
 
         return Result.success(Login.Response.builder()
                         .name(clientName)
-                        .jwtToken(token)
+                        .jwtToken(accessToken)
+                        .JwtRefreshToken(refreshToken)
                 .build());
     }
 }

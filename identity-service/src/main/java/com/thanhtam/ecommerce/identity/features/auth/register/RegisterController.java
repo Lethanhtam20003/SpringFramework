@@ -14,6 +14,6 @@ public class RegisterController extends BaseController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<Register.response>> register(@RequestBody Register.command registerRequest) {
         var result = handler.handler(registerRequest);
-        return HandleResult(result);
+        return handleResult(result);
     }
 }

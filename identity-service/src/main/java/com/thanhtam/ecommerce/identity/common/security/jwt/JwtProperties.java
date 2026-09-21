@@ -16,11 +16,6 @@ public class JwtProperties {
     private String issuer; // địa chỉ phát hành token (iss)
     private String audience; // ứng dụng được phép dùng
 
-
-
-//    private String header; // tên heahder chứa token
-//    private String prefix; // tiên tố của token
-
     @Data
     public static class Keystore {
         private String path;

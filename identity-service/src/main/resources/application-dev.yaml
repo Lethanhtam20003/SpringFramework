@@ -24,12 +24,9 @@ spring:
     refresh-token-expiration: 604800     # 7 ngày cho Refresh Token
 
     # Quản lý nguồn gốc và đối tượng (Claims chuẩn của JWT)
-    issuer: "https://api.yourdomain.com" # Máy chủ phát hành token (iss)
+    issuer: "https://api.identity.com" # Máy chủ phát hành token (iss)
     audience: "your-frontend-client"     # Ứng dụng được phép dùng token (aud)
     keystore:
       path: "classpath:security/app-keystore.jks"
       password: "tam123"
       alias: "auth-key"
-    # Quản lý giao tiếp HTTP
-#    header: "Authorization"              # Tên Header chứa token
-#    prefix: "Bearer "                    # Tiền tố của token

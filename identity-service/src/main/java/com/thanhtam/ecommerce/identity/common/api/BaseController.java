@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public abstract class BaseController {
 
-    protected <T> ResponseEntity<ApiResponse<T>> HandleResult(Result<T> result){
+    protected <T> ResponseEntity<ApiResponse<T>> handleResult(Result<T> result){
         if(result.isSuccess()){
             return ResponseEntity.ok(ApiResponse.success(result.getValue()));
         }

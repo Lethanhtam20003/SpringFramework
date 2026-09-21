@@ -79,23 +79,20 @@ public class Client extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "roles", nullable = false)
             @Builder.Default
-    Set<ClientRole> roles = new HashSet<>();
+    ClientRole roles;
 
 
     public static Client create(String clientName, String passwordHash, String email) {
-        Set<ClientRole> defaultRoles = new HashSet<>();
-        defaultRoles.add(ClientRole.CLIENT);
-
         return Client.builder()
                 .clientName(clientName)
                 .passwordHash(passwordHash)
                 .email(email)
-                // Trạng thái ban đầu: chờ xác thực email (hoặc ACTIVE nếu không cần xác thực)
                 .accountStatus(AccountStatus.PENDING_VERIFICATION)
-                .roles(defaultRoles)
+                .roles(ClientRole.CLIENT)
                 .isMailVerified(false)
                 .isPhoneVerified(false)
                 .failedLoginAttempts(0)
                 .build();
     }
+
 }

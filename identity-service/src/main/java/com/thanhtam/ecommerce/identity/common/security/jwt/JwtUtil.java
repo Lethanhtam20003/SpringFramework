@@ -44,6 +44,27 @@ public class JwtUtil {
 
         return signedJWT.serialize();
     }
+    public String generateRefreshToken(String userId) throws JOSEException {
+        // Sử dụng thuật toán RS256
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
+                .type(JOSEObjectType.JWT)
+                .keyID("key-id-01") // Hữu ích khi hệ thống có nhiều key (Key Rotation)
+                .build();
+
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + (jwtProperties.getRefreshTokenExpiration() * 1000));
+
+        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .jwtID(UUID.randomUUID().toString()) // jti: Định danh duy nhất để phục vụ Blacklist
+                .subject(userId)                     // sub: ID của User
+                .expirationTime(expiration)          // exp: Thời điểm hết hạn
+                .build();
+
+        SignedJWT signedJWT = new SignedJWT(header, claimsSet);
+        signedJWT.sign(signer); // Tốc độ xử lý cực nhanh vì Signer đã được khởi tạo sẵn
+
+        return signedJWT.serialize();
+    }
 
     public SignedJWT verifyAndParseToken(String token) throws ParseException, JOSEException {
         SignedJWT signedJWT = SignedJWT.parse(token);
