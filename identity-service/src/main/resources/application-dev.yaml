@@ -17,16 +17,16 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-  jwt:
-    secret: "DayLaMotKhoaBiMatRatDaiVaAnToanChoUngDungSpringCuaBan2026"
-    # Quản lý thời gian (tính bằng giây)
-    access-token-expiration: 3600        # 1 giờ cho Access Token
-    refresh-token-expiration: 604800     # 7 ngày cho Refresh Token
+jwt:
+  secret: "DayLaMotKhoaBiMatRatDaiVaAnToanChoUngDungSpringCuaBan2026"
+  # Quản lý thời gian (tính bằng giây)
+  access-token-expiration: 3600        # 1 giờ cho Access Token
+  refresh-token-expiration: 604800     # 7 ngày cho Refresh Token
 
-    # Quản lý nguồn gốc và đối tượng (Claims chuẩn của JWT)
-    issuer: "https://api.identity.com" # Máy chủ phát hành token (iss)
-    audience: "your-frontend-client"     # Ứng dụng được phép dùng token (aud)
-    keystore:
-      path: "classpath:security/app-keystore.jks"
-      password: "tam123"
-      alias: "auth-key"
+  # Quản lý nguồn gốc và đối tượng (Claims chuẩn của JWT)
+  issuer: "https://api.identity.com" # Máy chủ phát hành token (iss)
+  audience: "your-frontend-client"     # Ứng dụng được phép dùng token (aud)
+  keystore:
+    path: "classpath:security/app-keystore.p12"
+    password: "tam123"
+    alias: "auth-key"

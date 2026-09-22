@@ -14,5 +14,5 @@ public interface IClientRepository extends JpaRepository<Client, UUID> {
 
     boolean existsByClientName(String clientName);
 
-    Client findByClientName(String clientName);
+    Optional<Client> findByClientName(String clientName);
 }

@@ -4,6 +4,7 @@ import com.thanhtam.ecommerce.identity.common.result.Error;
 import com.thanhtam.ecommerce.identity.common.result.Result;
 import com.thanhtam.ecommerce.identity.domain.entities.Client;
 import com.thanhtam.ecommerce.identity.infrastructure.persistence.IClientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,15 @@ public class RegisterCommandHandler {
     private final IClientRepository userRepository;
     private final PasswordEncoder passwordHasher;
 
+    @Transactional
     public Result<Register.response> handler(Register.command registerRequest) {
         // 1. Kiểm tra tồn tại qua IUserRepository
         if(userRepository.existsByEmail(registerRequest.email())){
-            return Result.failure(Error.notFound("USER.DuplicateEmail", registerRequest.email()));
+            return Result.failure(Error.conflict("USER.DuplicateEmail", registerRequest.email()));
+        }
+        // kiểm tra client name
+        if(userRepository.existsByClientName(registerRequest.clientName())) {
+            return Result.failure(Error.conflict("USER.DuplicateName", registerRequest.clientName()));
         }
         // 2. Hash mật khẩu qua IPasswordHasher
         String passwordHash = passwordHasher.encode(registerRequest.password());
@@ -28,7 +34,7 @@ public class RegisterCommandHandler {
         // 5. Map sang RegisterResponse
         return Result.success(Register.response.builder()
                 .email(user.getEmail())
-                .message("success")
+                .message("Registration successful")
                 .build());
     }
 

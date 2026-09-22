@@ -16,6 +16,6 @@ public class Login {
     public record Response(
             String name,
             String jwtToken,
-            String JwtRefreshToken
+            String jwtRefreshToken
     ){}
 }

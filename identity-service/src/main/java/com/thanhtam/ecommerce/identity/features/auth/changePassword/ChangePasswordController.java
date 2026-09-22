@@ -2,6 +2,8 @@ package com.thanhtam.ecommerce.identity.features.auth.changePassword;
 
 import com.thanhtam.ecommerce.identity.common.api.ApiResponse;
 import com.thanhtam.ecommerce.identity.common.api.BaseController;
+import com.thanhtam.ecommerce.identity.common.security.UserPrincipal;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,17 +13,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("change-password")
 @RequiredArgsConstructor
 public class ChangePasswordController extends BaseController {
     private final changePasswordCommandHandler handler;
     @PostMapping
-    public ResponseEntity<ApiResponse<ChangePassword.response>> changePassword(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody ChangePassword.command request) {
+    public ResponseEntity<ApiResponse<ChangePassword.Response>> changePassword(
+            @AuthenticationPrincipal UserPrincipal userDetails,
+            @Valid @RequestBody ChangePassword.Command request) {
         String clientId = userDetails.getUsername();
-        var res = handler.handler(clientId ,request.passwordOld(), request.passwordNew());
+        var res = handler.handler(UUID.fromString(clientId),request.passwordOld(), request.passwordNew());
         return handleResult(res);
     }
 }
