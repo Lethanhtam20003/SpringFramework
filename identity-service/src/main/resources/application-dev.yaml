@@ -7,7 +7,9 @@ spring:
 
   jpa:
     show-sql: true
-    properties:
+    hibernate:
+      ddl-auto: validate
+#      properties:
 #      jakarta.persistence.schema-generation.scripts.action: create
 #      jakarta.persistence.schema-generation.scripts.create-target: src/main/resources/schema-temp.sql
 
@@ -18,15 +20,37 @@ spring:
     baseline-on-migrate: true
 
 jwt:
-  secret: "DayLaMotKhoaBiMatRatDaiVaAnToanChoUngDungSpringCuaBan2026"
-  # Quản lý thời gian (tính bằng giây)
   access-token-expiration: 3600        # 1 giờ cho Access Token
   refresh-token-expiration: 604800     # 7 ngày cho Refresh Token
-
-  # Quản lý nguồn gốc và đối tượng (Claims chuẩn của JWT)
   issuer: "https://api.identity.com" # Máy chủ phát hành token (iss)
   audience: "your-frontend-client"     # Ứng dụng được phép dùng token (aud)
   keystore:
     path: "classpath:security/app-keystore.p12"
     password: "tam123"
     alias: "auth-key"
+# Swagger & OpenAPI Config
+spring doc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    # Sắp xếp endpoint theo method (GET, POST, PUT, DELETE) hoặc theo bảng chữ cái
+    operationsSorter: method
+    tagsSorter: alpha
+    # Hiển thị thời gian phản hồi (ms) của request sau khi bấm Execute
+    display-request-duration: true
+    # Giữ token đăng nhập khi refresh lại trang Swagger
+    persistAuthorization: true
+    # Mặc định ẩn schema models ở cuối trang cho gọn UI
+    default-models-expand-depth: -1
+    doc-expansion: none
+  show-actuator: false
+
+OpenAPI:
+  service:
+    title: "E-Commerce Identity Service"
+    version: "v1.0.0"
+    description: "API quản lý định danh, xác thực JWT, RBAC và OAuth2"
+    server-url: "http://localhost:8080"

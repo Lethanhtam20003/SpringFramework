@@ -15,7 +15,7 @@ create table clients (
                          phone_number varchar(100),
                          avatar_url varchar(255),
                          password_hash varchar(255) not null,
-                         roles varbinary(255) not null,
+                         roles ENUM('admin', 'client') NOT NULL,
                          account_status enum ('ACTIVE','BANNED','PENDING_VERIFICATION','SUSPENDED') not null,
                          primary key (id)
 ) engine=InnoDB;

@@ -26,6 +26,18 @@ public class SecurityConfig {
         // 10 hoặc 12 là mức lý tưởng cho ứng dụng thông thường.
         return new BCryptPasswordEncoder(12);
     }
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+
+            "/api/v1/auth/register",
+            "/api/v1/auth/login",
+            "/api/v1/auth/refresh-token"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -33,7 +45,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login", "/api/v1/auth/refresh-token").permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         // Tất cả các request còn lại đều yêu cầu authentication
                         .anyRequest().authenticated()
                 )
@@ -49,4 +61,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }
