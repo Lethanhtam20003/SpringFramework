@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class RegisterController extends BaseController {
     private final RegisterCommandHandler handler;
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Register.response>> register(@Valid @RequestBody Register.command registerRequest) {
-        var result = handler.handler(registerRequest);
+    public ResponseEntity<ApiResponse<Register.Response>> register(@Valid @RequestBody Register.Command registerRequest) {
+        var result = handler.handle(registerRequest);
         return handleResult(result);
     }
 }

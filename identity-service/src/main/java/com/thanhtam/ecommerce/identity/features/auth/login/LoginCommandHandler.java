@@ -20,7 +20,7 @@ public class LoginCommandHandler {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil tokenGeneration;
 
-    public Result<Login.Response> handler(String clientName, String password) throws JOSEException {
+    public Result<Login.Response> handle(String clientName, String password) throws JOSEException {
         // lấy client
         Optional<Client> clientOpt = clientRepository.findByClientName(clientName);
         if (clientOpt.isEmpty() || !passwordEncoder.matches(password, clientOpt.get().getPasswordHash())) {

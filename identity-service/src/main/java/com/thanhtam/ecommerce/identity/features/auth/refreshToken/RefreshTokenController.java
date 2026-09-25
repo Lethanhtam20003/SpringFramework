@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("refresh-token")
+@RequestMapping("/api/v1/auth/refresh-token")
 @RequiredArgsConstructor
 public class RefreshTokenController extends BaseController {
-    @PostMapping
+    @PostMapping("/refresh-token")
     public ResponseEntity<ApiResponse<RefreshToken.Response>> refreshToken(){
 
         return null;

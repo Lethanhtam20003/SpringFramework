@@ -16,7 +16,7 @@ public class RegisterCommandHandler {
     private final PasswordEncoder passwordHasher;
 
     @Transactional
-    public Result<Register.response> handler(Register.command registerRequest) {
+    public Result<Register.Response> handle(Register.Command registerRequest) {
         // 1. Kiểm tra tồn tại qua IUserRepository
         if(userRepository.existsByEmail(registerRequest.email())){
             return Result.failure(Error.conflict("USER.DuplicateEmail", registerRequest.email()));
@@ -32,7 +32,7 @@ public class RegisterCommandHandler {
         // 4. Gọi userRepository.save(user)
         userRepository.save(user);
         // 5. Map sang RegisterResponse
-        return Result.success(Register.response.builder()
+        return Result.success(Register.Response.builder()
                 .email(user.getEmail())
                 .message("Registration successful")
                 .build());

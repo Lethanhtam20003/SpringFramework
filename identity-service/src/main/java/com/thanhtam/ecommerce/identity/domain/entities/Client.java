@@ -78,7 +78,6 @@ public class Client extends BaseEntity {
     //phân quyền
     @Enumerated(EnumType.STRING)
     @Column(name = "roles", nullable = false)
-            @Builder.Default
     ClientRole roles;
 
 

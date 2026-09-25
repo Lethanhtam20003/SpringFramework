@@ -18,7 +18,7 @@ public class changePasswordCommandHandler {
     private final IClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
     @Transactional
-    public Result<ChangePassword.Response> handler(UUID clientId, String oldPassword, String newPassword) {
+    public Result<ChangePassword.Response> handle(UUID clientId, String oldPassword, String newPassword) {
         if (oldPassword.equals(newPassword)) {
             return Result.failure(Error.validation("ChangePassword.SamePassword", "New password cannot be the same as old password"));
         }
