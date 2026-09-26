@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController extends BaseController {
     private final RegisterCommandHandler handler;
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Register.Response>> register(@Valid @RequestBody Register.Command registerRequest) {
+    public ResponseEntity<ApiResponse<Register.Response>> register(@Valid @RequestBody Register.RegisterCommand registerRequest) {
         var result = handler.handle(registerRequest);
         return handleResult(result);
     }

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Login {
-   public record Command(
+   public record LoginCommand(
            @NotBlank String clientName,
            @NotBlank @Size(min = 16)String password
    ){}

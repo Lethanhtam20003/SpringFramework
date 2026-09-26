@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 public class Register {
-    public record Command(
+    public record RegisterCommand(
         @NotBlank String clientName,
         @NotBlank @Size(min = 16)String password,
         @NotBlank @Email String email

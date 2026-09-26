@@ -19,10 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChangePasswordController extends BaseController {
     private final changePasswordCommandHandler handler;
+
     @PostMapping("/change-password")
     public ResponseEntity<ApiResponse<ChangePassword.Response>> changePassword(
             @AuthenticationPrincipal UserPrincipal userDetails,
-            @Valid @RequestBody ChangePassword.Command request) {
+            @Valid @RequestBody ChangePassword.ChangePasswordCommand request) {
         String clientId = userDetails.getUsername();
         var res = handler.handle(UUID.fromString(clientId),request.passwordOld(), request.passwordNew());
         return handleResult(res);

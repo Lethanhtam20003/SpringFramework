@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 public class ChangePassword {
-    public record Command(
+    public record ChangePasswordCommand(
 
             @NotBlank @Size(min = 8,max = 32) String passwordOld,
             @NotBlank @Size(min = 8,max = 32) String passwordNew

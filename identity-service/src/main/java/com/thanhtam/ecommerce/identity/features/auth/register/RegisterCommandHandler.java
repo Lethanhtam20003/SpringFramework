@@ -16,7 +16,7 @@ public class RegisterCommandHandler {
     private final PasswordEncoder passwordHasher;
 
     @Transactional
-    public Result<Register.Response> handle(Register.Command registerRequest) {
+    public Result<Register.Response> handle(Register.RegisterCommand registerRequest) {
         // 1. Kiểm tra tồn tại qua IUserRepository
         if(userRepository.existsByEmail(registerRequest.email())){
             return Result.failure(Error.conflict("USER.DuplicateEmail", registerRequest.email()));

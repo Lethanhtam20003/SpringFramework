@@ -9,12 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class LoginController extends BaseController {
     private final LoginCommandHandler handler;
-    @PostMapping("login")
-    public ResponseEntity<ApiResponse<Login.Response>> login(@Valid @RequestBody Login.Command request) throws JOSEException {
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<Login.Response>> login(@Valid @RequestBody Login.LoginCommand request) throws JOSEException {
         var res = handler.handle(request.clientName(),request.password());
         return handleResult(res);
     }

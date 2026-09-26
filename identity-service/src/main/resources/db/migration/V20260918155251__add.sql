@@ -7,7 +7,7 @@ create table clients (
                          created_at datetime(6) not null,
                          password_change_at datetime(6),
                          updated_at datetime(6),
-                         id varchar(32) not null,
+                         id varchar(36) not null,
                          client_name varchar(100) not null,
                          email varchar(100),
                          first_name varchar(100),
@@ -15,12 +15,12 @@ create table clients (
                          phone_number varchar(100),
                          avatar_url varchar(255),
                          password_hash varchar(255) not null,
-                         roles ENUM('admin', 'client') NOT NULL,
+                         roles ENUM('ADMIN', 'CLIENT') NOT NULL,
                          account_status enum ('ACTIVE','BANNED','PENDING_VERIFICATION','SUSPENDED') not null,
                          primary key (id)
 ) engine=InnoDB;
 
-create index idx_ckient_status
+create index idx_client_status
     on clients (account_status);
 
 alter table clients

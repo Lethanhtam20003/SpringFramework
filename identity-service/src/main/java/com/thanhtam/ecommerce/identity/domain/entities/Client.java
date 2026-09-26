@@ -32,7 +32,7 @@ public class Client extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "id", length = 32, nullable = false, updatable = false)
+    @Column(name = "id", length = 36, nullable = false, updatable = false)
     UUID id;
 
     @Column(name = "client_name",nullable = false, unique = true, length = 100)

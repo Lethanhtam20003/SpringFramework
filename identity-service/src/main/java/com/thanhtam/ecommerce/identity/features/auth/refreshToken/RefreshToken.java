@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 public class RefreshToken {
-    public record Command(
+    public record RefreshTokenCommand(
             @NotBlank String refreshToken
     ){}
 

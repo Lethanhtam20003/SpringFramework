@@ -31,12 +31,13 @@ public class NimbusJwtConfig {
      */
     @Bean
     public KeyStore keyStore() throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("JKS");
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
         try (InputStream is = resourceLoader.getResource(jwtProperties.getKeystore().getPath()).getInputStream()) {
             keyStore.load(is, jwtProperties.getKeystore().getPassword().toCharArray());
         }
         return keyStore;
     }
+
 
     @Bean
     public JWSSigner jwsSigner(KeyStore keyStore) throws Exception {

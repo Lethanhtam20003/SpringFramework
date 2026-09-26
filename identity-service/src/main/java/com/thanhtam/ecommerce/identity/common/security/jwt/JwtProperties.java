@@ -1,6 +1,5 @@
 package com.thanhtam.ecommerce.identity.common.security.jwt;
 
-import ch.qos.logback.core.net.SMTPAppenderBase;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

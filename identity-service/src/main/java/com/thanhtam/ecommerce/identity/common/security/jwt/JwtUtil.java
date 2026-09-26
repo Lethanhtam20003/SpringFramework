@@ -19,6 +19,9 @@ public class JwtUtil {
     private final JWSVerifier verifier;
     private final JWSSigner signer;
 
+    public static final String TOKEN_TYPE_CLAIM = "token_type";
+    public static final String ACCESS_TOKEN_TYPE = "ACCESS";
+    public static final String REFRESH_TOKEN_TYPE = "REFRESH";
 
     public String generateAccessToken(String userId, String role) throws JOSEException {
         // Sử dụng thuật toán RS256
@@ -37,6 +40,7 @@ public class JwtUtil {
                 .issueTime(now)                      // iat: Thời điểm cấp
                 .expirationTime(expiration)          // exp: Thời điểm hết hạn
                 .claim("role", role)                 // Custom claim
+                .claim(TOKEN_TYPE_CLAIM,ACCESS_TOKEN_TYPE)
                 .build();
 
         SignedJWT signedJWT = new SignedJWT(header, claimsSet);
@@ -58,6 +62,7 @@ public class JwtUtil {
                 .jwtID(UUID.randomUUID().toString()) // jti: Định danh duy nhất để phục vụ Blacklist
                 .subject(userId)                     // sub: ID của User
                 .expirationTime(expiration)          // exp: Thời điểm hết hạn
+                .claim(TOKEN_TYPE_CLAIM,REFRESH_TOKEN_TYPE)
                 .build();
 
         SignedJWT signedJWT = new SignedJWT(header, claimsSet);
